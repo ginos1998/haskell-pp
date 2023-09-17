@@ -1,2 +1,4 @@
-# haskell-pdp
-Haskell examples and projects learned in Programming Programming Paradigms classes
+# haskell-pp
+
+## Introduction
+Haskell examples and projects learned in Programming Paradigms classes

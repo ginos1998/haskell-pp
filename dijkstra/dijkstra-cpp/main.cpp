@@ -20,4 +20,6 @@ int main() {
 
     Vertice inicio = v0;
     Vertice destino = v4;
+
+    auto resultados = dijkstra(grafo, inicio, destino);
 }

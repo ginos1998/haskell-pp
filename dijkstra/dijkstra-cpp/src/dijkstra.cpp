@@ -18,3 +18,25 @@ int obtenerPesoArista(const Grafo& grafo, const Vertice& origen, const Vertice& 
 
     return (it != grafo.aristas.end()) ? it->peso : std::numeric_limits<int>::max();
 }
+
+DijkstraResult dijkstra(const Grafo& grafo, const Vertice& inicio, const Vertice& destino) {
+    auto pesos = inicializarPesos(grafo, inicio);
+    auto noConocidos = obtenerNoConocidos(grafo);
+    auto resultados = DijkstraResult{pesos, std::vector<Vertice>(grafo.vertices.size(), inicio), {}, {inicio}, noConocidos};
+
+    while (!noConocidos.empty()) {
+        auto verticeActual = *std::min_element(noConocidos.begin(), noConocidos.end(),
+                                               [&](const Vertice& a, const Vertice& b) {
+                                                   return resultados.pesos[a.nombre] < resultados.pesos[b.nombre];
+                                               });
+
+        if (verticeActual.nombre == destino.nombre) {
+            break;
+        }
+
+        noConocidos.erase(std::remove(noConocidos.begin(), noConocidos.end(), verticeActual), noConocidos.end());
+        
+    }
+
+    return resultados;
+}

@@ -36,4 +36,12 @@ struct DijkstraResult {
     std::vector<Vertice> verticesNoConocidos;
 };
 
+std::vector<int> inicializarPesos(const Grafo& grafo, const Vertice& inicio);
+
+std::vector<Vertice> obtenerNoConocidos(const Grafo& grafo);
+
+int obtenerPesoArista(const Grafo& grafo, const Vertice& origen, const Vertice& destino);
+
+
+
 #endif // DIJKSTRA_H

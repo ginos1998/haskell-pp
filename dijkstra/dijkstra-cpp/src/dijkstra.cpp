@@ -1,7 +1,3 @@
-#include <stdio.h>
+#include "../inc/dijkstra.h"
 
-int main(int argc, char const *argv[])
-{
-    printf("ok");
-    return 0;
-}
+

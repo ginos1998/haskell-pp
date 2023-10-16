@@ -11,10 +11,6 @@ struct Vertice {
     Vertice(int n) : nombre(n) {}
 };
 
-bool operator==(const Vertice& v1, const Vertice& v2) {
-    return v1.nombre == v2.nombre;
-}
-
 struct Arista {
     Vertice origen;
     Vertice destino;

@@ -1,5 +1,9 @@
 #include "../inc/dijkstra.h"
 
+bool operator==(const Vertice& v1, const Vertice& v2) {
+    return v1.nombre == v2.nombre;
+}
+
 std::vector<int> inicializarPesos(const Grafo& grafo, const Vertice& inicio) {
     std::vector<int> pesos(grafo.vertices.size(), std::numeric_limits<int>::max());
     pesos[inicio.nombre] = 0;

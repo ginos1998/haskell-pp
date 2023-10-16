@@ -20,6 +20,10 @@ Open a terminal, move to dijkstra-cpp folder and execute this line:
 ```
 g++ -std=c++14 -Iinc src/dijkstra.cpp main.cpp -o dijkstra_executable
 ```
+Then, an executable file is created. In this case, it's named 'dijkstra_executable' so we can execute this program in a terminal with
+```
+./dijkstra_executable
+```
 
 ## Run on Mac OS
 

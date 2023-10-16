@@ -56,7 +56,16 @@ DijkstraResult actualizarResultados(const DijkstraResult& resultados, const Aris
     if (resultados.pesos[arista.destino.nombre] > resultados.pesos[arista.origen.nombre] + pesoArista) {
         nuevosPesos[arista.destino.nombre] = resultados.pesos[arista.origen.nombre] + pesoArista;
         nuevosPrevios[arista.destino.nombre] = arista.origen;
-        nuevosVerticesConocidos.push_back(arista.destino);
+
+        auto itNoConocidos = std::find(nuevosVerticesNoConocidos.begin(), nuevosVerticesNoConocidos.end(), arista.destino);
+        if (itNoConocidos != nuevosVerticesNoConocidos.end()) {
+            nuevosVerticesNoConocidos.erase(itNoConocidos);
+        }
+
+        auto itConocidos = std::find(nuevosVerticesConocidos.begin(), nuevosVerticesConocidos.end(), arista.destino);
+        if (itConocidos == nuevosVerticesConocidos.end()) {
+            nuevosVerticesConocidos.push_back(arista.destino);
+        }
     }
 
     return {nuevosPesos, nuevosPrevios, {arista}, nuevosVerticesConocidos, nuevosVerticesNoConocidos};

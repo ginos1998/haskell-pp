@@ -70,3 +70,9 @@ DijkstraResult actualizarResultados(const DijkstraResult& resultados, const Aris
 
     return {nuevosPesos, nuevosPrevios, {arista}, nuevosVerticesConocidos, nuevosVerticesNoConocidos};
 }
+
+void imprimirResultados(const DijkstraResult& resultados, const Vertice& inicio, const Vertice& destino) {
+    std::cout << "Camino más corto desde el vértice " << inicio.nombre << " hasta el vértice " << destino.nombre << ":\n";
+    std::cout << "Peso total: " << resultados.pesos[destino.nombre] << "\n";
+    
+}

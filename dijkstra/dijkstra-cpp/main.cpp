@@ -22,4 +22,8 @@ int main() {
     Vertice destino = v4;
 
     auto resultados = dijkstra(grafo, inicio, destino);
+
+    imprimirResultados(resultados, inicio, destino);
+
+    return 0;
 }

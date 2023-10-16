@@ -46,4 +46,7 @@ DijkstraResult dijkstra(const Grafo& grafo, const Vertice& inicio, const Vertice
 
 DijkstraResult actualizarResultados(const DijkstraResult& resultados, const Arista& arista, const Grafo& grafo);
 
+void imprimirResultados(const DijkstraResult& resultados, const Vertice& inicio, const Vertice& destino);
+
+
 #endif // DIJKSTRA_H

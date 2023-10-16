@@ -75,4 +75,33 @@ void imprimirResultados(const DijkstraResult& resultados, const Vertice& inicio,
     std::cout << "Camino más corto desde el vértice " << inicio.nombre << " hasta el vértice " << destino.nombre << ":\n";
     std::cout << "Peso total: " << resultados.pesos[destino.nombre] << "\n";
     
+    std::cout << "Camino: ";
+
+    std::vector<int> camino;
+    int actual = destino.nombre;
+    while (actual != inicio.nombre) {
+        camino.push_back(actual);
+        actual = resultados.previos[actual].nombre;
+    }
+    camino.push_back(inicio.nombre);
+
+    for (auto it = camino.rbegin(); it != camino.rend(); ++it) {
+        std::cout << *it;
+        if (it + 1 != camino.rend()) {
+            std::cout << " -> ";
+        }
+    }
+
+    std::cout << "\n";
+    std::cout << "Vertices Conocidos: ";
+    for (const auto& vertice : resultados.verticesConocidos) {
+        std::cout << vertice.nombre << " ";
+    }
+    std::cout << "\n";
+    std::cout << "Vertices No Conocidos: ";
+    for (const auto& vertice : resultados.verticesNoConocidos) {
+        std::cout << vertice.nombre << " ";
+    }
+    std::cout << "\n";
+    
 }

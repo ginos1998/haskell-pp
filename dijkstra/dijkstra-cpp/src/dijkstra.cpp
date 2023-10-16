@@ -35,8 +35,29 @@ DijkstraResult dijkstra(const Grafo& grafo, const Vertice& inicio, const Vertice
         }
 
         noConocidos.erase(std::remove(noConocidos.begin(), noConocidos.end(), verticeActual), noConocidos.end());
-        
+        for (const auto& arista : grafo.aristas) {
+            if (arista.origen.nombre == verticeActual.nombre) {
+                resultados = actualizarResultados(resultados, arista, grafo);
+            }
+        }
     }
 
     return resultados;
+}
+
+DijkstraResult actualizarResultados(const DijkstraResult& resultados, const Arista& arista, const Grafo& grafo) {
+    auto nuevosPesos = resultados.pesos;
+    auto nuevosPrevios = resultados.previos;
+    auto nuevosVerticesConocidos = resultados.verticesConocidos;
+    auto nuevosVerticesNoConocidos = resultados.verticesNoConocidos;
+
+    int pesoArista = obtenerPesoArista(grafo, arista.origen, arista.destino);
+
+    if (resultados.pesos[arista.destino.nombre] > resultados.pesos[arista.origen.nombre] + pesoArista) {
+        nuevosPesos[arista.destino.nombre] = resultados.pesos[arista.origen.nombre] + pesoArista;
+        nuevosPrevios[arista.destino.nombre] = arista.origen;
+        nuevosVerticesConocidos.push_back(arista.destino);
+    }
+
+    return {nuevosPesos, nuevosPrevios, {arista}, nuevosVerticesConocidos, nuevosVerticesNoConocidos};
 }

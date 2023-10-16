@@ -44,6 +44,6 @@ int obtenerPesoArista(const Grafo& grafo, const Vertice& origen, const Vertice& 
 
 DijkstraResult dijkstra(const Grafo& grafo, const Vertice& inicio, const Vertice& destino);
 
-
+DijkstraResult actualizarResultados(const DijkstraResult& resultados, const Arista& arista, const Grafo& grafo);
 
 #endif // DIJKSTRA_H

@@ -1,6 +1,6 @@
 # Introducction
 
-The objective of this project is to implement Dijkstra's algorithm in c++14 with a functional paradigm, using the same functions used to implement this algorithm in haskell (../dijkstra.hs). 
+The objective of this project is to implement Dijkstra's algorithm in c++14 with a functional paradigm, using the same functions used to implement this algorithm in [haskell](https://github.com/ginos1998/haskell-pp/blob/main/dijkstra/dijkstra.hs).
 
 ## Implementation
 

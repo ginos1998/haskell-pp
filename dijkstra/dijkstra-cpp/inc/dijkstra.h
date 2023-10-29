@@ -6,6 +6,8 @@
 #include <limits>
 #include <algorithm>
 
+#define INF 100
+
 struct Vertice {
     int nombre;
     Vertice(int n) : nombre(n) {}

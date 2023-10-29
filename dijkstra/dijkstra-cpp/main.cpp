@@ -5,41 +5,78 @@
 #include <vector>
 #include <string>
 
+int validInput(int argc, char** argv);
 FILE * openFile(const std::string& path);
-std::vector<Vertice> readVerticesFromFile(FILE *file);
-std::vector<Arista> readAristasFromFile(FILE *file);
+void readFromFile(FILE *file);
+void createVertice(int n);
+void createArista(int n, int m, int w);
+std::vector<Vertice> vertices;
+std::vector<Arista> aristas;
+int validInicioDestino(const Grafo& grafo, int inicio, int destino);
 
 int main(int argc, char** argv) {
-    /*if (argc != 2) {
-        std::cout << "Add a graph file: " << std::endl;
+    try {
+//        argc = 4;
+//        argv[1] = "../graph.txt";
+//        argv[2] = "0";
+//        argv[3] = "4";
+        if (validInput(argc, argv) == 1) {
+            return 1;
+        }
+        FILE *file;
+        std::string path = argv[1];
+        file = openFile(path);
+        readFromFile(file);
+
+        std::cout<< "Vertices: ";
+        for (auto &vertice : vertices) {
+            printf("v%d ", vertice.nombre);
+        }
+
+        std::cout<< "\nAristas: " << std::endl;
+        int i = 0;
+        for (auto &arista : aristas) {
+            printf("{a%d}: (v%d) --[%d]-- (v%d)\n", i++, arista.origen.nombre, arista.peso, arista.destino.nombre);
+        }
+
+        Grafo grafo(vertices, aristas);
+
+        if (validInicioDestino(grafo, std::stoi(argv[2]), std::stoi(argv[3])) == 1) {
+            return 1;
+        }
+        Vertice inicio = vertices[std::stoi(argv[2])];
+        Vertice destino = vertices[std::stoi(argv[3])];
+        auto resultados = dijkstra(grafo, inicio, destino);
+        imprimirResultados(resultados, inicio, destino);
+    } catch (const std::exception& e) {
+        std::cout << e.what() << std::endl;
         return 1;
-    }*/
-    FILE *file;
-//    std::string path = argv[1];
-    std::string path = "../graph.txt";
-    file = openFile(path);
-    std::vector<Vertice> vertices = readVerticesFromFile(file);
-    std::vector<Arista> aristas = readAristasFromFile(file);
+    }
+    return 0;
+}
 
-//
-//    Arista a0(v0, v1, 2),
-//            a1(v0, v2, 4),
-//            a2(v1, v2, 1),
-//            a3(v1, v3, 7),
-//            a4(v2, v3, 3),
-//            a5(v2, v4, 5),
-//            a6(v3, v4, 1);
-//
-//    Grafo grafo({v0, v1, v2, v3, v4},
-//                {a0, a1, a2, a3, a4, a5, a6});
-//
-//    Vertice inicio = v0;
-//    Vertice destino = v4;
-//
-//    auto resultados = dijkstra(grafo, inicio, destino);
-//
-//    imprimirResultados(resultados, inicio, destino);
+int validInput(int argc, char** argv) {
+    if (argc == 2 && std::string(argv[1]) == "-h") {
+        std::cout << "Usage: ./dijkstra <path_to_file> <start_vertice> <end_vertice>" << std::endl;
+        return 1;
+    }
 
+    if (argc != 4) {
+        printf("Error: Invalid input. Arguments needed 4. You've passed %d.\nTry ./dijkstra -h for help", argc);
+        return 1;
+    }
+    return 0;
+}
+
+int validInicioDestino(const Grafo& grafo, int inicio, int destino) {
+    if (inicio < 0 || inicio >= grafo.vertices.size()) {
+        printf("Error: Invalid input. Start vertice must be between 0 and %lu.\n", grafo.vertices.size() - 1);
+        return 1;
+    }
+    if (destino < 0 || destino >= grafo.vertices.size()) {
+        printf("Error: Invalid input. End vertice must be between 0 and %lu.\n", grafo.vertices.size() - 1);
+        return 1;
+    }
     return 0;
 }
 
@@ -53,52 +90,31 @@ FILE *openFile(const std::string& path) {
     return file;
 }
 
-std::vector<Vertice> readVerticesFromFile(FILE *file) {
+void readFromFile(FILE *file) {
     char line[100];
-    std::vector<Vertice> vertices;
-
     while (fgets(line, sizeof(line), file)) {
         std::istringstream iss(line);
         char type;
-        int n;
+        int n, m, w, x;
 
         if (iss >> type >> n && type == 'v') {
-            Vertice vertice(n);
-            vertices.push_back(vertice);
+            createVertice(n);
+        } else if (sscanf(line, "a%d(v%d,v%d,%d)", &x, &n, &m, &w) == 4) {
+            createArista(n, m, w);
         }
     }
-
-    std::cout<< "Vertices: " << std::endl;
-    for (auto &vertice : vertices) {
-        std::cout << vertice.nombre << std::endl;
-    }
-    return vertices;
 }
 
-std::vector<Arista> readAristasFromFile(FILE *file) {
-    char line[100];
-    std::vector<Arista> aristas;
+void createVertice(int n) {
+    Vertice vertice(n);
+    vertices.push_back(vertice);
+}
 
-    while (fgets(line, sizeof(line), file)) {
-        std::istringstream iss(line);
-        char type;
-        int n, m, w;
-
-        if (iss >> type >> n >> type >> m >> type >> w && type == 'a') {
-            // Creating Arista
-            Vertice origen(n);
-            Vertice destino(m);
-            Arista arista(origen, destino, w);
-            aristas.push_back(arista);
-        }
-    }
-
-    std::cout<< "Aristas: " << std::endl;
-    int i = 0;
-    for (auto &arista : aristas) {
-        printf("a%d: %d -> %d\n", i++, arista.origen.nombre, arista.destino.nombre);
-    }
-    return aristas;
+void createArista(int n, int m, int w) {
+    Vertice origen(n);
+    Vertice destino(m);
+    Arista arista(origen, destino, w);
+    aristas.push_back(arista);
 }
 
 

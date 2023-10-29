@@ -6,6 +6,7 @@ bool operator==(const Vertice& v1, const Vertice& v2) {
 
 std::vector<int> inicializarPesos(const Grafo& grafo, const Vertice& inicio) {
     std::vector<int> pesos(grafo.vertices.size(), std::numeric_limits<int>::max());
+    std::fill(pesos.begin(), pesos.end(), INF);
     pesos[inicio.nombre] = 0;
     return pesos;
 }
